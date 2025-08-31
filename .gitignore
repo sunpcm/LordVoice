@@ -52,3 +52,5 @@ Thumbs.db
 !requirements.txt
 !index.txt
 !diarization_log.txt
+
+.env

@@ -4,7 +4,6 @@ pydub
 torch
 pyannote.audio
 demucs
-pydub
 matplotlib
 numpy
 torchaudio

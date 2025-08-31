@@ -8,7 +8,7 @@ load_dotenv()
 
 # --- 配置 ---
 DIARIZATION_LOG = os.getenv("DIARIZATION_LOG")
-ORIGINAL_VOCALS = os.getenv("ORIGINAL_VOCALS")
+ORIGINAL_VOCALS = os.getenv("INPUT_AUDIO")
 SONGJIANG_SAMPLE = os.getenv("SONGJIANG_SAMPLE")
 OUTPUT_DIR = os.getenv("OUTPUT_DIR")
 FINAL_OUTPUT = os.getenv("FINAL_OUTPUT")
@@ -94,24 +94,6 @@ with open(DIARIZATION_LOG, 'r', encoding='utf-8') as f:
 
 songjiang_compilation.export(FINAL_OUTPUT, format="mp3")
 print(f"任务完成！所有宋江的声音已合成为 '{FINAL_OUTPUT}'。")
-os.remove("temp_segment.wav")
-import os
-import subprocess
-
-VIDEO_FILE = "episode_01.mp4"  # 可修改为你的文件名
-AUDIO_FILE = "episode_01_audio.wav"
-
-if not os.path.exists(VIDEO_FILE):
-    print(f"未找到视频文件: {VIDEO_FILE}")
-    exit(1)
-
-cmd = [
-    "ffmpeg", "-i", VIDEO_FILE, "-vn", "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1", AUDIO_FILE
-]
-print(f"正在提取音频到 {AUDIO_FILE} ...")
-ret = subprocess.run(cmd)
-if ret.returncode == 0:
-    print(f"音频提取成功: {AUDIO_FILE}")
-else:
-    print("音频提取失败，请检查 ffmpeg 是否安装并在 PATH 中。")
+if os.path.exists("temp_segment.wav"):
+    os.remove("temp_segment.wav")
 
