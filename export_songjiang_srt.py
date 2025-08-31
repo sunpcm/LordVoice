@@ -1,16 +1,18 @@
-import re
-
 def seconds_to_srt_time(seconds):
     h = int(seconds // 3600)
     m = int((seconds % 3600) // 60)
     s = int(seconds % 60)
     ms = int((seconds - int(seconds)) * 1000)
     return f"{h:02}:{m:02}:{s:02},{ms:03}"
+import re
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # 识别结果
-songjiang_speaker = "SPEAKER_04"  # 可根据实际识别结果修改
-input_log = "diarization_log.txt"
-output_srt = "songjiang_voice_compilation.srt"
+songjiang_speaker = os.getenv("SONGJIANG_SPEAKER")
+input_log = os.getenv("DIARIZATION_LOG")
+output_srt = os.getenv("OUTPUT_SRT")
 
 pattern = re.compile(r"开始: ([\d.]+)s \| 结束: ([\d.]+)s \| 说话人: (.+)")
 

@@ -1,18 +1,21 @@
 import re
 import whisper
 from pydub import AudioSegment
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # 配置
-songjiang_speaker = "SPEAKER_04"  # 根据识别结果修改
-input_log = "diarization_log.txt"
-audio_file = "demo_audio.wav"
-output_srt = "songjiang_voice_compilation_text.srt"
+songjiang_speaker = os.getenv("SONGJIANG_SPEAKER")
+input_log = os.getenv("DIARIZATION_LOG")
+audio_file = os.getenv("ORIGINAL_VOCALS")
+output_srt = os.getenv("OUTPUT_TEXT_SRT")
 
 pattern = re.compile(r"开始: ([\d.]+)s \| 结束: ([\d.]+)s \| 说话人: (.+)")
 
 # 加载音频和模型
 audio = AudioSegment.from_wav(audio_file)
-model = whisper.load_model("base")
+model = whisper.load_model(os.getenv("WHISPER_MODEL"))
 
 with open(input_log, "r", encoding="utf-8") as fin, open(output_srt, "w", encoding="utf-8") as fout:
     idx = 1

@@ -1,0 +1,16 @@
+python-dotenv
+openai-whisper
+pydub
+torch
+pyannote.audio
+demucs
+pydub
+matplotlib
+numpy
+torchaudio
+soundfile
+scipy
+librosa
+huggingface_hub
+speechbrain
+
