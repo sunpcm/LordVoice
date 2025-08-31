@@ -26,7 +26,7 @@ ENV/
 *.log
 *.srt
 *.txt
-songjiang_clips/
+lord_clips/
 pretrained_models/
 
 # IDE配置

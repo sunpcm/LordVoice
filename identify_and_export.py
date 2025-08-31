@@ -9,7 +9,7 @@ load_dotenv()
 # --- 配置 ---
 DIARIZATION_LOG = os.getenv("DIARIZATION_LOG")
 ORIGINAL_VOCALS = os.getenv("INPUT_AUDIO")
-SONGJIANG_SAMPLE = os.getenv("SONGJIANG_SAMPLE")
+LORD_SAMPLE = os.getenv("LORD_SAMPLE")
 OUTPUT_DIR = os.getenv("OUTPUT_DIR")
 FINAL_OUTPUT = os.getenv("FINAL_OUTPUT")
 
@@ -35,8 +35,8 @@ def cosine_similarity(emb1, emb2):
     # 返回均值作为标量
     return torch.nn.functional.cosine_similarity(emb1, emb2).mean().item()
 
-print(f"正在为样本 '{SONGJIANG_SAMPLE}' 创建声纹...")
-songjiang_embedding = get_embedding(SONGJIANG_SAMPLE)
+print(f"正在为样本 '{LORD_SAMPLE}' 创建声纹...")
+lord_embedding = get_embedding(LORD_SAMPLE)
 
 print("正在分析日志文件并为每个说话人创建声纹...")
 audio = AudioSegment.from_wav(ORIGINAL_VOCALS)
@@ -69,20 +69,20 @@ print("正在匹配最相似的说话人...")
 best_match_speaker = None
 highest_similarity = -1
 for speaker, emb in avg_embeddings.items():
-    similarity = cosine_similarity(songjiang_embedding, emb)
+    similarity = cosine_similarity(lord_embedding, emb)
     print(f"与 {speaker} 的相似度: {similarity:.4f}")
     if similarity > highest_similarity:
         highest_similarity = similarity
         best_match_speaker = speaker
 
 if best_match_speaker:
-    print(f"\n识别完成！'{best_match_speaker}' 最有可能是宋江。")
+    print(f"\n识别完成！'{best_match_speaker}' 最有可能是目标。")
 else:
     print("未能找到匹配的说话人。")
     exit(1)
 
 print("正在导出并合并所有宋江的音频片段...")
-songjiang_compilation = AudioSegment.empty()
+lord_compilation = AudioSegment.empty()
 with open(DIARIZATION_LOG, 'r', encoding='utf-8') as f:
     for i, line in enumerate(f):
         if best_match_speaker in line:
@@ -90,10 +90,10 @@ with open(DIARIZATION_LOG, 'r', encoding='utf-8') as f:
             start_ms = float(parts[0].split(": ")[1][:-1]) * 1000
             end_ms = float(parts[1].split(": ")[1][:-1]) * 1000
             clip = audio[start_ms:end_ms]
-            songjiang_compilation += clip
+            lord_compilation += clip
 
-songjiang_compilation.export(FINAL_OUTPUT, format="mp3")
-print(f"任务完成！所有宋江的声音已合成为 '{FINAL_OUTPUT}'。")
+lord_compilation.export(FINAL_OUTPUT, format="mp3")
+print(f"任务完成！所有声音已合成为 '{FINAL_OUTPUT}'。")
 if os.path.exists("temp_segment.wav"):
     os.remove("temp_segment.wav")
 

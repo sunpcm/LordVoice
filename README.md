@@ -32,7 +32,7 @@ LordVoice/
 ├── README.md                  # 项目说明
 ├── index.txt                  # 项目流程说明
 ├── separated/                 # 人声分离输出目录（demucs生成）
-├── songjiang_clips/           # 宋江音频片段输出目录
+├── lord_clips/           # 宋江音频片段输出目录
 ├── pretrained_models/         # 声纹模型缓存目录
 └── ...
 ```
@@ -75,7 +75,7 @@ python diarize.py
 生成 `diarization_log.txt`。
 
 ### 4. 宋江声纹识别与导出
-准备宋江的干净语音样本 `songjiang_sample.wav`，放在项目根目录。
+准备宋江的干净语音样本 `lord_sample.wav`，放在项目根目录。
 
 运行：
 
@@ -83,7 +83,7 @@ python diarize.py
 python identify_and_export.py
 ```
 
-自动识别宋江并导出所有片段，合成为 `songjiang_voice_compilation.mp3`。
+自动识别宋江并导出所有片段，合成为 `lord_voice_compilation.mp3`。
 
 ---
 

@@ -150,14 +150,14 @@ python diarize.py
 现在我们有了不同说话人的片段，但还不知道 SPEAKER_00, SPEAKER_01... 哪个才是宋江。
 
 1. 准备宋江的声音样本
-你需要手动从电视剧中剪辑一小段 只有宋江在说话，且没有背景音乐 的音频，时长 5-10 秒即可，保存为 songjiang_sample.wav。这个样本的质量至关重要！
+你需要手动从电视剧中剪辑一小段 只有宋江在说话，且没有背景音乐 的音频，时长 5-10 秒即可，保存为 lord_sample.wav。这个样本的质量至关重要！
 
 2. 编写脚本进行识别和切分
 接下来的脚本会比较复杂。它会：
 
 读取上一步生成的日志文件。
 
-为 songjiang_sample.wav 创建一个“声纹”向量。
+为 lord_sample.wav 创建一个“声纹”向量。
 
 为日志中每一个说话人（SPEAKER_00, SPEAKER_01...）都创建一个声纹向量。
 
@@ -181,9 +181,9 @@ import numpy as np
 # --- 配置 ---
 DIARIZATION_LOG = "diarization_log.txt"
 ORIGINAL_VOCALS = "separated/htdemucs/vocals.wav"
-SONGJIANG_SAMPLE = "songjiang_sample.wav" # 你手动准备的样本
-OUTPUT_DIR = "songjiang_clips"
-FINAL_OUTPUT = "songjiang_voice_compilation.mp3"
+LORD_SAMPLE = "lord_sample.wav" # 你手动准备的样本
+OUTPUT_DIR = "lord_clips"
+FINAL_OUTPUT = "lord_voice_compilation.mp3"
 
 # --- 准备工作 ---
 if not os.path.exists(OUTPUT_DIR):
@@ -208,8 +208,8 @@ def cosine_similarity(emb1, emb2):
 
 # --- 主逻辑 ---
 # 1. 创建宋江的声纹
-print(f"正在为样本 '{SONGJIANG_SAMPLE}' 创建声纹...")
-songjiang_embedding = get_embedding(SONGJIANG_SAMPLE)
+print(f"正在为样本 '{LORD_SAMPLE}' 创建声纹...")
+lord_embedding = get_embedding(LORD_SAMPLE)
 
 # 2. 加载音频和日志，为每个说话人创建平均声纹
 print("正在分析日志文件并为每个说话人创建声纹...")
@@ -244,7 +244,7 @@ best_match_speaker = None
 highest_similarity = -1
 
 for speaker, emb in avg_embeddings.items():
-    similarity = cosine_similarity(songjiang_embedding, emb)
+    similarity = cosine_similarity(lord_embedding, emb)
     print(f"与 {speaker} 的相似度: {similarity:.4f}")
     if similarity > highest_similarity:
         highest_similarity = similarity
@@ -258,7 +258,7 @@ else:
 
 # 4. 导出所有宋江的片段并合并
 print("正在导出并合并所有宋江的音频片段...")
-songjiang_compilation = AudioSegment.empty()
+lord_compilation = AudioSegment.empty()
 with open(DIARIZATION_LOG, 'r') as f:
     for i, line in enumerate(f):
          if best_match_speaker in line:
@@ -266,10 +266,10 @@ with open(DIARIZATION_LOG, 'r') as f:
             start_ms = float(parts[0].split(": ")[1][:-1]) * 1000
             end_ms = float(parts[1].split(": ")[1][:-1]) * 1000
             clip = audio[start_ms:end_ms]
-            songjiang_compilation += clip
+            lord_compilation += clip
 
 # 导出最终文件
-songjiang_compilation.export(FINAL_OUTPUT, format="mp3")
+lord_compilation.export(FINAL_OUTPUT, format="mp3")
 print(f"任务完成！所有宋江的声音已合成为 '{FINAL_OUTPUT}'。")
 os.remove("temp_segment.wav") # 清理临时文件
 注意：上面这段代码非常高级，直接运行前需要确保所有依赖和模型都已正确安装和配置，并且音频格式和采样率都符合 speechbrain 的要求。它主要用于展示完整的逻辑流程。
@@ -283,6 +283,6 @@ os.remove("temp_segment.wav") # 清理临时文件
 
 逐步推进：然后尝试运行第三步（说话人日志），看看 pyannote.audio 是否能正确区分出不同的人。
 
-关键样本：第四步的成功与否，极度依赖你提供的 songjiang_sample.wav 的质量。一定要找一段最清晰、最纯净的独白。
+关键样本：第四步的成功与否，极度依赖你提供的 lord_sample.wav 的质量。一定要找一段最清晰、最纯净的独白。
 
 这个项目非常有挑战性，但也能让你学到大量关于音频处理和AI应用的知识。如果在任何一步卡住了，随时把你的问题和错误信息告诉我，我会帮你分析解决！
