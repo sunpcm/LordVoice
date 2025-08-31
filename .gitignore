@@ -1,0 +1,54 @@
+# LordVoice 项目忽略文件
+# 忽略所有临时、缓存、无关及大文件
+
+# Python缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 虚拟环境
+.venv/
+venv/
+ENV/
+
+# 音频/视频大文件
+*.wav
+*.mp3
+*.mp4
+*.m4a
+*.flac
+*.aac
+*.ogg
+*.wma
+
+# 日志与中间结果
+*.log
+*.srt
+*.txt
+songjiang_clips/
+pretrained_models/
+
+# IDE配置
+.idea/
+.vscode/
+
+# Windows特殊文件
+*Zone.Identifier
+
+# 其他
+.DS_Store
+Thumbs.db
+
+# 保留项目核心脚本和说明
+!audio_extract.py
+!diarize.py
+!identify_and_export.py
+!export_songjiang_srt.py
+!export_songjiang_text_srt.py
+!segment.py
+!songjiang_sample.wav
+!README.md
+!requirements.txt
+!index.txt
+!diarization_log.txt
