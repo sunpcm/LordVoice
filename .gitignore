@@ -40,17 +40,11 @@ pretrained_models/
 .DS_Store
 Thumbs.db
 
+# 环境变量配置文件
+.env
+
 # 保留项目核心脚本和说明
-!audio_extract.py
-!diarize.py
-!identify_and_export.py
-!export_songjiang_srt.py
-!export_songjiang_text_srt.py
-!segment.py
-!songjiang_sample.wav
 !README.md
 !requirements.txt
 !index.txt
-!diarization_log.txt
 
-.env
