@@ -1,18 +1,31 @@
-LordVoice Project Description
-中文说明 (Chinese README)
+# LordVoice Project Description
+
+[中文说明 (Chinese README)](README.md)
 
 This project is a general-purpose audio extraction tool designed to extract target voice segments from videos. Users can provide a sample of the target voice, and the program will automatically identify and export the relevant audio segments from the video. The following example demonstrates extracting Song Jiang's voice from "Water Margin" videos.
 
-Environment Setup
-Python 3.8 or higher is recommended.
-It is recommended to use a virtual environment (e.g., venv, .venv, conda).
-Install dependencies:
+---
+
+## Environment Setup
+
+1. Python 3.8 or higher is recommended.
+2. It is recommended to use a virtual environment (e.g., venv, .venv, conda).
+3. Install dependencies:
+
+```bash
 pip install -r requirements.txt
-Install ffmpeg (a tool for audio and video processing):
-Ubuntu: sudo apt install ffmpeg
-Mac: brew install ffmpeg
-Windows: Download and configure ffmpeg
-Project Directory Structure
+```
+
+4. Install ffmpeg (a tool for audio and video processing):
+   - Ubuntu: `sudo apt install ffmpeg`
+   - Mac: `brew install ffmpeg`
+   - Windows: [Download and configure ffmpeg](https://ffmpeg.org/download.html)
+
+---
+
+## Project Directory Structure
+
+```
 LordVoice/
 ├── audio_extract.py           # Script for extracting audio from video
 ├── diarize.py                 # Script for speaker diarization
@@ -24,43 +37,70 @@ LordVoice/
 ├── exported_clips/            # Directory for exported audio clips
 ├── pretrained_models/         # Directory for cached voice models
 └── ...
-Usage Workflow
-1. Extract Audio
-Place the original video (e.g., demo.mp4) in the project root directory and run:
+```
 
+---
+
+## Usage Workflow
+
+### 1. Extract Audio
+Place the original video (e.g., `demo.mp4`) in the project root directory and run:
+
+```bash
 python audio_extract.py
-This will generate demo_audio.wav.
+```
 
-2. Separate Vocals
+This will generate `demo_audio.wav`.
+
+### 2. Separate Vocals
 Use the demucs tool to separate vocals:
 
+```bash
 demucs --two-stems=vocals demo_audio.wav
-The output file will be located at separated/htdemucs/vocals.wav.
+```
 
-3. Speaker Diarization
-Edit diarize.py and replace HF_TOKEN with your Hugging Face Token:
+The output file will be located at `separated/htdemucs/vocals.wav`.
 
+### 3. Speaker Diarization
+Edit `diarize.py` and replace `HF_TOKEN` with your Hugging Face Token:
+
+```python
 HF_TOKEN = "Your Hugging Face Token"
+```
+
 Run:
 
+```bash
 python diarize.py
-This will generate diarization_log.txt.
+```
 
-4. Voice Identification and Export
-Prepare a clean sample of the target voice (e.g., target_sample.wav) and place it in the project root directory.
+This will generate `diarization_log.txt`.
+
+### 4. Voice Identification and Export
+Prepare a clean sample of the target voice (e.g., `target_sample.wav`) and place it in the project root directory.
 
 Run:
 
+```bash
 python identify_and_export.py
-The program will automatically identify the target voice and export all segments, combining them into voice_compilation.mp3.
+```
 
-FAQ
-How to obtain a Hugging Face Token? Register at Hugging Face and create a token in Settings -> Access Tokens.
-What if ffmpeg is not installed or not in PATH? Audio extraction will fail. Ensure ffmpeg is installed and properly configured.
-What if dependency installation fails? Upgrade pip and install the problematic package individually.
-What if I encounter GPU memory issues? Try running the program on the CPU.
-References
-pyannote.audio
-demucs
-speechbrain
+The program will automatically identify the target voice and export all segments, combining them into `voice_compilation.mp3`.
+
+---
+
+## FAQ
+
+- **How to obtain a Hugging Face Token?** Register at [Hugging Face](https://huggingface.co/) and create a token in Settings -> Access Tokens.
+- **What if ffmpeg is not installed or not in PATH?** Audio extraction will fail. Ensure ffmpeg is installed and properly configured.
+- **What if dependency installation fails?** Upgrade pip and install the problematic package individually.
+- **What if I encounter GPU memory issues?** Try running the program on the CPU.
+
+---
+
+## References
+- [pyannote.audio](https://github.com/pyannote/pyannote-audio)
+- [demucs](https://github.com/facebookresearch/demucs)
+- [speechbrain](https://github.com/speechbrain/speechbrain)
+
 If you have any questions, please submit an issue or contact the author.
