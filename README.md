@@ -1,6 +1,6 @@
 # LordVoice Project Description
 
-[中文说明 (Chinese README)](README.md)
+[中文说明 (Chinese README)](README_ZH.md)
 
 This project is a general-purpose audio extraction tool designed to extract target voice segments from videos. Users can provide a sample of the target voice, and the program will automatically identify and export the relevant audio segments from the video. The following example demonstrates extracting Song Jiang's voice from "Water Margin" videos.
 
